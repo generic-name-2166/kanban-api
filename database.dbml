@@ -1,0 +1,30 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table user {
+  id integer [primary key]
+  email text
+  hashed_password text
+}
+
+Table column {
+  id intger [primary key]
+  user_id integer
+  name varchar(50)
+}
+
+Table card {
+  id integer [primary key]
+  column_id integer
+  contents text
+}
+
+Table comment {
+  id integer [primary key]
+  card_id integer
+  contents text
+}
+
+Ref: user.id > column.user_id
+Ref: column.id > card.column_id
+Ref: card.id > comment.card_id
