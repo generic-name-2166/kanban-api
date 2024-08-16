@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcrypt";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function hashPassword(_pass: string): string {
-  return "a";
+async function comparePassword(pass: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(pass, hash);
 }
 
 @Injectable()
@@ -16,7 +16,10 @@ export class AuthService {
 
   async signIn(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
-    if (user?.hashedPassword !== hashPassword(pass)) {
+    if (
+      user === undefined ||
+      !(await comparePassword(pass, user?.hashedPassword))
+    ) {
       throw new UnauthorizedException();
     }
     const payload = { sub: user.id, email: user.email };

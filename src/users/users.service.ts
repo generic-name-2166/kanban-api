@@ -1,12 +1,19 @@
 import { Injectable } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { User } from "./entities/user.entity";
+import * as bcrypt from "bcrypt";
+
+async function hashPassword(pass: string): Promise<string> {
+  const rounds: number = 10;
+  return await bcrypt.hash(pass, rounds);
+}
 
 @Injectable()
 export class UsersService {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create(_createUserDto: CreateUserDto) {
-    return "This action adds a new user";
+  create(createUserDto: CreateUserDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const hashedPassword = hashPassword(createUserDto.password);
+    // TODO call database here
   }
 
   findAll() {
