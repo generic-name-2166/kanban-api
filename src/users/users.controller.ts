@@ -8,10 +8,13 @@ import {
   Put,
   ParseIntPipe,
   UsePipes,
+  UseGuards,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto, createUserSchema } from "./dto/create-user.dto";
 import { ZodValidationPipe } from "../zod_pipe";
+import { AuthGuard } from "src/auth/auth.guard";
+import { OwnerGuard } from "src/auth/owner.guard";
 
 @Controller("users")
 export class UsersController {
@@ -23,17 +26,14 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
   @Get(":userId")
+  @UseGuards(AuthGuard, OwnerGuard)
   findOne(@Param("userId", ParseIntPipe) userId: number) {
     return this.usersService.findOne(userId);
   }
 
   @Put(":userId")
+  @UseGuards(AuthGuard, OwnerGuard)
   update(
     @Param("userId", ParseIntPipe) userId: number,
     @Body() createUserDto: CreateUserDto,
@@ -42,6 +42,7 @@ export class UsersController {
   }
 
   @Delete(":userId")
+  @UseGuards(AuthGuard, OwnerGuard)
   remove(@Param("userId", ParseIntPipe) userId: number) {
     return this.usersService.remove(userId);
   }
