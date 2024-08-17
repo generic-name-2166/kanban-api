@@ -8,11 +8,13 @@ import {
   ParseIntPipe,
   UseGuards,
   Put,
+  UsePipes,
 } from "@nestjs/common";
 import { ListsService } from "./lists.service";
-import { CreateListDto } from "./dto/create-list.dto";
+import { CreateListDto, createListSchema } from "./dto/create-list.dto";
 import { AuthGuard } from "src/auth/auth.guard";
 import { OwnerGuard } from "src/auth/owner.guard";
+import { ZodValidationPipe } from "src/zod_pipe";
 
 @Controller("users/:userId/lists")
 export class ListsController {
@@ -20,6 +22,7 @@ export class ListsController {
 
   @Post()
   @UseGuards(AuthGuard, OwnerGuard)
+  @UsePipes(new ZodValidationPipe(createListSchema))
   create(@Body() createListDto: CreateListDto) {
     return this.listsService.create(createListDto);
   }
@@ -38,6 +41,7 @@ export class ListsController {
 
   @Put(":listId")
   @UseGuards(AuthGuard, OwnerGuard)
+  @UsePipes(new ZodValidationPipe(createListSchema))
   update(
     @Param("listId", ParseIntPipe) listId: number,
     @Body() createListDto: CreateListDto,

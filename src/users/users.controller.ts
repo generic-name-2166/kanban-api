@@ -34,6 +34,7 @@ export class UsersController {
 
   @Put(":userId")
   @UseGuards(AuthGuard, OwnerGuard)
+  @UsePipes(new ZodValidationPipe(createUserSchema))
   update(
     @Param("userId", ParseIntPipe) userId: number,
     @Body() createUserDto: CreateUserDto,
