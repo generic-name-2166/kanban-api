@@ -13,7 +13,9 @@ import { AuthService } from "./auth.service";
 import { ZodValidationPipe } from "src/zod_pipe";
 import { CreateUserDto, createUserSchema } from "src/users/dto/create-user.dto";
 import { AuthGuard } from "./auth.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
+@ApiTags("auth")
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -25,8 +27,9 @@ export class AuthController {
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 
-  @UseGuards(AuthGuard)
   @Get("profile")
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   getProfile(@Request() req: any) {
     return req.user;
   }
