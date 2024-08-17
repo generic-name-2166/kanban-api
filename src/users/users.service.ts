@@ -2,6 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { User } from "./entities/user.entity";
 import * as bcrypt from "bcrypt";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
 async function hashPassword(pass: string): Promise<string> {
   const rounds: number = 10;
@@ -10,32 +12,26 @@ async function hashPassword(pass: string): Promise<string> {
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
+
   create(createUserDto: CreateUserDto) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const hashedPassword = hashPassword(createUserDto.password);
     // TODO call database here
   }
 
-  findAll() {
-    return `This action returns all users`;
+  findAll(): Promise<User[]> {
+    return this.usersRepository.find();
   }
 
-  async findOne(id: number): Promise<User> {
-    const user = {
-      id,
-      email: "example@example.org",
-      hashedPassword: "a",
-    } satisfies User;
-    return user;
+  findOne(id: number): Promise<User | null> {
+    return this.usersRepository.findOneBy({ id });
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
-    const user = {
-      id: 0,
-      email,
-      hashedPassword: "a",
-    } satisfies User;
-    return user;
+  findByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ email });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -43,7 +39,7 @@ export class UsersService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number): Promise<void> {
+    await this.usersRepository.delete(id);
   }
 }
