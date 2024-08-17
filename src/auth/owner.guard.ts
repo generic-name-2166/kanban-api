@@ -6,8 +6,8 @@ export class OwnerGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     // user from AuthGuard
     const user = request.user;
-    const userId = request.params.userId;
+    const userId = parseInt(request.params.userId);
 
-    return user.sub === userId;
+    return !isNaN(userId) && user.sub === userId;
   }
 }

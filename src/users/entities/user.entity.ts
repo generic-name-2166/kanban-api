@@ -1,5 +1,11 @@
 import { List } from "src/lists/entities/list.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+} from "typeorm";
 
 @Entity()
 export class User {
@@ -10,5 +16,5 @@ export class User {
   @Column()
   hashedPassword: string;
   @OneToMany(() => List, (list) => list.user)
-  lists: List[];
+  lists: Relation<List[]>;
 }
