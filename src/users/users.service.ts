@@ -16,10 +16,14 @@ export class UsersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const hashedPassword = hashPassword(createUserDto.password);
-    // TODO call database here
+  async create(createUserDto: CreateUserDto): Promise<void> {
+    const hashedPassword = await hashPassword(createUserDto.password);
+    await this.usersRepository.save([
+      {
+        email: createUserDto.email,
+        hashedPassword,
+      },
+    ]);
   }
 
   findAll(): Promise<User[]> {
@@ -34,9 +38,15 @@ export class UsersService {
     return this.usersRepository.findOneBy({ email });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, _createUserDto: CreateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, createUserDto: CreateUserDto): Promise<void> {
+    const hashedPassword = await hashPassword(createUserDto.password);
+    await this.usersRepository.save([
+      {
+        id,
+        email: createUserDto.email,
+        hashedPassword,
+      },
+    ]);
   }
 
   async remove(id: number): Promise<void> {

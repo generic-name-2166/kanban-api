@@ -10,9 +10,12 @@ export class ListsService {
     @InjectRepository(List) private listRepository: Repository<List>,
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create(_createListDto: CreateListDto) {
-    return "This action adds a new list";
+  async create(createListDto: CreateListDto): Promise<void> {
+    await this.listRepository.save([
+      {
+        name: createListDto.name,
+      },
+    ]);
   }
 
   findAll(): Promise<List[]> {
@@ -23,9 +26,13 @@ export class ListsService {
     return this.listRepository.findOneBy({ id });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, _createListDto: CreateListDto) {
-    return `This action updates a #${id} list`;
+  async update(id: number, createListDto: CreateListDto): Promise<void> {
+    await this.listRepository.save([
+      {
+        id,
+        name: createListDto.name,
+      },
+    ]);
   }
 
   async remove(id: number) {
