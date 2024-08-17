@@ -15,7 +15,12 @@ import { CreateListDto, createListSchema } from "./dto/create-list.dto";
 import { AuthGuard } from "src/auth/auth.guard";
 import { OwnerGuard } from "src/auth/owner.guard";
 import { ZodValidationPipe } from "src/zod_pipe";
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+} from "@nestjs/swagger";
 import { List } from "./entities/list.entity";
 
 @ApiTags("lists")
@@ -25,6 +30,7 @@ export class ListsController {
   constructor(private readonly listsService: ListsService) {}
 
   @Post()
+  @ApiParam({ name: "userId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   @UsePipes(new ZodValidationPipe(createListSchema))
   create(@Body() createListDto: CreateListDto): Promise<void> {
@@ -32,6 +38,7 @@ export class ListsController {
   }
 
   @Get()
+  @ApiParam({ name: "userId", type: Number })
   @ApiOkResponse({ type: [List] })
   @UseGuards(AuthGuard, OwnerGuard)
   findAll(): Promise<List[]> {
@@ -39,6 +46,7 @@ export class ListsController {
   }
 
   @Get(":listId")
+  @ApiParam({ name: "userId", type: Number })
   @ApiOkResponse({ type: List })
   @UseGuards(AuthGuard, OwnerGuard)
   findOne(@Param("listId", ParseIntPipe) listId: number): Promise<List | null> {
@@ -46,6 +54,7 @@ export class ListsController {
   }
 
   @Put(":listId")
+  @ApiParam({ name: "userId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   @UsePipes(new ZodValidationPipe(createListSchema))
   update(
@@ -56,6 +65,7 @@ export class ListsController {
   }
 
   @Delete(":listId")
+  @ApiParam({ name: "userId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   remove(@Param("listId", ParseIntPipe) listId: number): Promise<void> {
     return this.listsService.remove(listId);

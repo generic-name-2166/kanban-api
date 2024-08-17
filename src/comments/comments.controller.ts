@@ -15,7 +15,12 @@ import {
   CreateCommentDto,
   createCommentSchema,
 } from "./dto/create-comment.dto";
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+} from "@nestjs/swagger";
 import { AuthGuard } from "src/auth/auth.guard";
 import { OwnerGuard } from "src/auth/owner.guard";
 import { ZodValidationPipe } from "src/zod_pipe";
@@ -28,6 +33,9 @@ export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
+  @ApiParam({ name: "cardId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   @UsePipes(new ZodValidationPipe(createCommentSchema))
   create(@Body() createCommentDto: CreateCommentDto): Promise<void> {
@@ -35,6 +43,9 @@ export class CommentsController {
   }
 
   @Get()
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
+  @ApiParam({ name: "cardId", type: Number })
   @ApiOkResponse({ type: [Comment] })
   @UseGuards(AuthGuard, OwnerGuard)
   findAll(): Promise<Comment[]> {
@@ -42,6 +53,9 @@ export class CommentsController {
   }
 
   @Get(":commentId")
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
+  @ApiParam({ name: "cardId", type: Number })
   @ApiOkResponse({ type: Comment })
   @UseGuards(AuthGuard, OwnerGuard)
   findOne(
@@ -51,6 +65,9 @@ export class CommentsController {
   }
 
   @Put(":commentId")
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
+  @ApiParam({ name: "cardId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   @UsePipes(new ZodValidationPipe(createCommentSchema))
   update(
@@ -61,6 +78,9 @@ export class CommentsController {
   }
 
   @Delete(":commentId")
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
+  @ApiParam({ name: "cardId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   remove(@Param("commentId", ParseIntPipe) commentId: number): Promise<void> {
     return this.commentsService.remove(commentId);

@@ -2,7 +2,7 @@
 
 Minimalistic RESTful API for kanban-style app API inspired by trello
 
-# Notice 
+# Notice
 
 This project uses the following packages
 

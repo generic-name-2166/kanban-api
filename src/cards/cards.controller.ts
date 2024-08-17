@@ -12,7 +12,12 @@ import {
 } from "@nestjs/common";
 import { CardsService } from "./cards.service";
 import { CreateCardDto, createCardSchema } from "./dto/create-card.dto";
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+} from "@nestjs/swagger";
 import { AuthGuard } from "src/auth/auth.guard";
 import { OwnerGuard } from "src/auth/owner.guard";
 import { ZodValidationPipe } from "src/zod_pipe";
@@ -25,6 +30,8 @@ export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
   @Post()
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   @UsePipes(new ZodValidationPipe(createCardSchema))
   create(@Body() createCardDto: CreateCardDto): Promise<void> {
@@ -32,6 +39,8 @@ export class CardsController {
   }
 
   @Get()
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
   @ApiOkResponse({ type: [Card] })
   @UseGuards(AuthGuard, OwnerGuard)
   findAll(): Promise<Card[]> {
@@ -39,6 +48,8 @@ export class CardsController {
   }
 
   @Get(":cardId")
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
   @ApiOkResponse({ type: Card })
   @UseGuards(AuthGuard, OwnerGuard)
   findOne(@Param("cardId", ParseIntPipe) cardId: number): Promise<Card | null> {
@@ -46,6 +57,8 @@ export class CardsController {
   }
 
   @Put(":cardId")
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   @UsePipes(new ZodValidationPipe(createCardSchema))
   update(
@@ -56,6 +69,8 @@ export class CardsController {
   }
 
   @Delete(":cardId")
+  @ApiParam({ name: "userId", type: Number })
+  @ApiParam({ name: "columnId", type: Number })
   @UseGuards(AuthGuard, OwnerGuard)
   remove(@Param("cardId", ParseIntPipe) cardId: number): Promise<void> {
     return this.cardsService.remove(cardId);
