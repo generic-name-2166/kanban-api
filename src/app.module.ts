@@ -6,6 +6,7 @@ import { AuthModule } from "./auth/auth.module";
 import { ListsModule } from "./lists/lists.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CardsModule } from "./cards/cards.module";
+import { CommentsModule } from "./comments/comments.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CardsModule } from "./cards/cards.module";
       synchronize: true, // TODO remove this in prod
     }),
     CardsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

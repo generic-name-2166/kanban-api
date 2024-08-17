@@ -1,42 +1,40 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
-import { CardsService } from "./cards.service";
-import { Card } from "./entities/card.entity";
-import { List } from "src/lists/entities/list.entity";
+import { CommentsService } from "./comments.service";
+import { Comment } from "./entities/comment.entity";
+import { Card } from "src/cards/entities/card.entity";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
-const cardArray: Card[] = [
+const commentArray: Comment[] = [
   {
     id: 0,
-    list: new List(),
+    card: new Card(),
     contents: "card0",
-    comments: [],
   },
   {
     id: 1,
-    list: new List(),
+    card: new Card(),
     contents: "card1",
-    comments: [],
   },
 ];
 
-describe("CardsService", () => {
-  let service: CardsService;
+describe("CommentsService", () => {
+  let service: CommentsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CardsService,
+        CommentsService,
         {
-          provide: getRepositoryToken(Card),
+          provide: getRepositoryToken(Comment),
           useValue: {
-            find: vi.fn().mockResolvedValue(cardArray),
+            find: vi.fn().mockResolvedValue(commentArray),
           },
         },
       ],
     }).compile();
 
-    service = module.get<CardsService>(CardsService);
+    service = module.get<CommentsService>(CommentsService);
   });
 
   it("should be defined", () => {
@@ -44,9 +42,9 @@ describe("CardsService", () => {
   });
 
   describe("findAll()", () => {
-    it("should return an array of cards", async () => {
+    it("should return an array of comments", async () => {
       const lists = await service.findAll();
-      expect(lists).toEqual(cardArray);
+      expect(lists).toEqual(commentArray);
     });
   });
 });

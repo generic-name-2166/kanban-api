@@ -1,9 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { List } from "src/lists/entities/list.entity";
+import { Comment } from "src/comments/entities/comment.entity";
 import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from "typeorm";
@@ -19,4 +21,7 @@ export class Card {
   @ApiProperty()
   @Column()
   contents: string;
+  @ApiProperty()
+  @OneToMany(() => Comment, (comment) => comment.card)
+  comments: Relation<Comment[]>;
 }
