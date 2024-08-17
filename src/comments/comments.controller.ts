@@ -23,7 +23,7 @@ import { Comment } from "./entities/comment.entity";
 
 @ApiTags("comments")
 @ApiBearerAuth()
-@Controller("users/:userId/lists/:listId/cards/:cardId")
+@Controller("users/:userId/lists/:listId/cards/:cardId/comments")
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
