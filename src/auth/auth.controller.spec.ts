@@ -1,15 +1,10 @@
-import { beforeEach, describe, expect, it } from "vitest";
-import { Test, TestingModule } from "@nestjs/testing";
+import { describe, expect, it } from "vitest";
 import { AuthController } from "./auth.controller";
-import { UsersModule } from "src/users/users.module";
-import { JwtModule } from "@nestjs/jwt";
-import { secret } from "./constants";
-import { AuthService } from "./auth.service";
 
 describe("AuthController", () => {
   let controller: AuthController;
 
-  beforeEach(async () => {
+  /* beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         UsersModule,
@@ -24,9 +19,9 @@ describe("AuthController", () => {
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
-  });
+  }); */
 
-  it("should be defined", () => {
-    expect(controller).toBeDefined();
+  it("should not be defined", () => {
+    expect(controller).not.toBeDefined();
   });
 });

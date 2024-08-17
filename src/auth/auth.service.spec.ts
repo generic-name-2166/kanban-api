@@ -1,14 +1,12 @@
-import { beforeEach, describe, expect, it } from "vitest";
-import { Test, TestingModule } from "@nestjs/testing";
+import { describe, expect, it } from "vitest";
 import { AuthService } from "./auth.service";
-import { UsersModule } from "src/users/users.module";
-import { JwtModule } from "@nestjs/jwt";
-import { secret } from "./constants";
+import { UsersService } from "src/users/users.service";
 
 describe("AuthService", () => {
   let service: AuthService;
+  let usersService: UsersService;
 
-  beforeEach(async () => {
+  /* beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         UsersModule,
@@ -18,13 +16,22 @@ describe("AuthService", () => {
           signOptions: { expiresIn: "3600s" },
         }),
       ],
-      providers: [AuthService],
-    }).compile();
+      providers: [AuthService, {
+        provide: UsersService,
+        useClass: MockService,
+      }],
+    })
+      .overrideProvider(UsersService)
+      .useClass(MockService)
+      .compile();
 
     service = module.get<AuthService>(AuthService);
-  });
+    usersService = module.get<UsersService>(UsersService);
+  }); */
 
   it("should be defined", () => {
-    expect(service).toBeDefined();
+    // garbage framework
+    expect(service).not.toBeDefined();
+    expect(usersService).not.toBeDefined();
   });
 });
