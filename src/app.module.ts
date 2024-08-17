@@ -5,6 +5,7 @@ import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { ListsModule } from "./lists/lists.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { CardsModule } from "./cards/cards.module";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       autoLoadEntities: true,
       synchronize: true, // TODO remove this in prod
     }),
+    CardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

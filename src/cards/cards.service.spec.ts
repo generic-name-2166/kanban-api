@@ -1,42 +1,40 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
-import { ListsService } from "./lists.service";
-import { List } from "./entities/list.entity";
-import { User } from "src/users/entities/user.entity";
+import { CardsService } from "./cards.service";
+import { Card } from "./entities/card.entity";
+import { List } from "src/lists/entities/list.entity";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
-const listArray: List[] = [
+const cardArray: Card[] = [
   {
     id: 0,
-    user: new User(),
-    name: "list0",
-    cards: [],
+    list: new List(),
+    contents: "card0",
   },
   {
     id: 1,
-    user: new User(),
-    name: "list1",
-    cards: [],
+    list: new List(),
+    contents: "card1",
   },
 ];
 
-describe("ListsService", () => {
-  let service: ListsService;
+describe("CardsService", () => {
+  let service: CardsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ListsService,
+        CardsService,
         {
-          provide: getRepositoryToken(List),
+          provide: getRepositoryToken(Card),
           useValue: {
-            find: vi.fn().mockResolvedValue(listArray),
+            find: vi.fn().mockResolvedValue(cardArray),
           },
         },
       ],
     }).compile();
 
-    service = module.get<ListsService>(ListsService);
+    service = module.get<CardsService>(CardsService);
   });
 
   it("should be defined", () => {
@@ -46,7 +44,7 @@ describe("ListsService", () => {
   describe("findAll()", () => {
     it("should return an array of lists", async () => {
       const lists = await service.findAll();
-      expect(lists).toEqual(listArray);
+      expect(lists).toEqual(cardArray);
     });
   });
 });
