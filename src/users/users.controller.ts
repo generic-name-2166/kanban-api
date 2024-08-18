@@ -13,8 +13,8 @@ import {
 import { UsersService } from "./users.service";
 import { CreateUserDto, createUserSchema } from "./dto/create-user.dto";
 import { ZodValidationPipe } from "../zod_pipe";
-import { AuthGuard } from "src/auth/auth.guard";
-import { OwnerGuard } from "src/auth/owner.guard";
+import { AuthGuard } from "../auth/auth.guard";
+import { OwnerGuard } from "../auth/owner.guard";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { User } from "./entities/user.entity";
 

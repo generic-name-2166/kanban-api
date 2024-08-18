@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
 import { CommentsService } from "./comments.service";
 import { Comment } from "./entities/comment.entity";
-import { Card } from "src/cards/entities/card.entity";
+import { Card } from "../cards/entities/card.entity";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
 const commentArray: Comment[] = [

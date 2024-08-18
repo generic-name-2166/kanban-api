@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { List } from "src/lists/entities/list.entity";
-import { Comment } from "src/comments/entities/comment.entity";
+import { List } from "../../lists/entities/list.entity";
+import { Comment } from "../../comments/entities/comment.entity";
 import {
   Column,
   Entity,

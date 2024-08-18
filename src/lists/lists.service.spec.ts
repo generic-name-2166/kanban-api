@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Test, TestingModule } from "@nestjs/testing";
 import { ListsService } from "./lists.service";
 import { List } from "./entities/list.entity";
-import { User } from "src/users/entities/user.entity";
+import { User } from "../users/entities/user.entity";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
 const listArray: List[] = [

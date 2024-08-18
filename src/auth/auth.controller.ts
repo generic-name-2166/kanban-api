@@ -10,8 +10,8 @@ import {
   Request,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { ZodValidationPipe } from "src/zod_pipe";
-import { CreateUserDto, createUserSchema } from "src/users/dto/create-user.dto";
+import { ZodValidationPipe } from "../zod_pipe";
+import { CreateUserDto, createUserSchema } from "../users/dto/create-user.dto";
 import { AuthGuard } from "./auth.guard";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 

@@ -18,9 +18,9 @@ import {
   ApiParam,
   ApiTags,
 } from "@nestjs/swagger";
-import { AuthGuard } from "src/auth/auth.guard";
-import { OwnerGuard } from "src/auth/owner.guard";
-import { ZodValidationPipe } from "src/zod_pipe";
+import { AuthGuard } from "../auth/auth.guard";
+import { OwnerGuard } from "../auth/owner.guard";
+import { ZodValidationPipe } from "../zod_pipe";
 import { Card } from "./entities/card.entity";
 
 @ApiTags("cards")
